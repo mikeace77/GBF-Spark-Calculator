@@ -108,45 +108,47 @@ class Choices:
         self.one_tix = 0
         self.ten_tix = 0
 
-        try:
-            user_input = int(input("1. 10 Draw\n2. 1 Draw\nYour choice?: "))
-        except ValueError:
-            print("Please input a number!")
-                  
-        match user_input:
-            case 1:
-                match [self.crystal < 3000]:
-                    case [True]:
-                        print("Sorry, not enough crystal")
-                    case _:
-                        self.crystal -= 3000
-                        for i in range(10):
-                            result = rd.choices(rarity, weights=self.odds, k=1)
-                            if rarity[0] in result:
-                                self.r +=1
-                            elif rarity[1] in result:
-                                self.sr +=1
-                            else:
-                                self.ssr += 1
-                            print(''.join(result),"",end="")
-                        print("\n")
-                        print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
-            case 2:
-                match [self.crystal < 300]:
-                    case [True]:
-                        print("Sorry, not enough crystal")
-                    case _:
-                        self.crystal -= 300
-                        for i in range(1):
-                            result = rd.choices(rarity, weights=self.odds, k=1)
-                            if rarity[0] in result:
-                                self.r +=1
-                            elif rarity[1] in result:
-                                self.sr +=1
-                            else:
-                                self.ssr += 1
-                            print(''.join(result),"",end="")
-                        print("\n")
-                        print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
-            case _:
-                print("input a number!")
+        do_gacha = True
+        while do_gacha:
+            try:
+                user_input = int(input("1. 10 Draw\n2. 1 Draw\n3. Exit\nYour choice?: "))
+            except ValueError:
+                print("Please input a number!")
+
+            match user_input:
+                case 1:
+                    match [self.crystal < 3000]:
+                        case [True]:
+                            print("Sorry, not enough crystal")
+                        case _:
+                            self.crystal -= 3000
+                            for i in range(10):
+                                result = rd.choices(rarity, weights=self.odds, k=1)
+                                if rarity[0] in result:
+                                    self.r +=1
+                                elif rarity[1] in result:
+                                    self.sr +=1
+                                else:
+                                    self.ssr += 1
+                                print(''.join(result),"",end="")
+                            print("\n")
+                            print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+                case 2:
+                    match [self.crystal < 300]:
+                        case [True]:
+                            print("Sorry, not enough crystal")
+                        case _:
+                            self.crystal -= 300
+                            for i in range(1):
+                                result = rd.choices(rarity, weights=self.odds, k=1)
+                                if rarity[0] in result:
+                                    self.r +=1
+                                elif rarity[1] in result:
+                                    self.sr +=1
+                                else:
+                                    self.ssr += 1
+                                print(''.join(result),"",end="")
+                            print("\n")
+                            print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+                case _:
+                    break
