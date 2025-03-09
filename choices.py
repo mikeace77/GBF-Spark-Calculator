@@ -11,6 +11,7 @@ class Choices:
         self.sr = 0
         self.ssr = 0
         self.gala = False
+        self.odds = [0.82, 0.15, 0.03]
     
     def xtall(self):
         try:
@@ -76,15 +77,34 @@ class Choices:
         self.one_tix = 0
         self.ten_tix = 0
     
+    def toggle_gala(self):
+        choosing = True
+        while choosing:
+            toggle = input("Do you want gala rate?(y/n): ").lower()
+            match toggle:
+                case 'y':
+                    self.gala = True
+                    self.odds = [0.805, 0.135, 0.06]
+                    print("Gala is turned on")
+                    choosing = False
+                case 'n':
+                    self.gala = False
+                    self.odds = [0.82, 0.15, 0.03]
+                    print("Gala is turned off")
+                    choosing = False
+                case _:
+                    print("Please choose y/n only!")
+                    continue
+
     def gacha(self):
         rarity = ["R", "SR", "SSR"]
-        odds = [0.82, 0.15, 0.03]
         self.one_tix *= 300
         self.ten_tix *= 3000
         all_curr = round(self.one_tix + self.ten_tix)
         self.crystal += all_curr
-        print("All tickets are now converted to crystals")
         print("\n"*100)
+        print("All tickets are now converted to crystals")
+        print("Please choose how many draws you want!")
         self.one_tix = 0
         self.ten_tix = 0
 
@@ -92,24 +112,7 @@ class Choices:
             user_input = int(input("1. 10 Draw\n2. 1 Draw\nYour choice?: "))
         except ValueError:
             print("Please input a number!")
-        
-        choosing = True
-        while choosing:
-            is_gala = input("Do you want gala rate?(y/n): ").lower()
-            print("\n")
-            match is_gala:
-                case 'y':
-                    self.gala = True
-                    odds = [0.82, 0.15, 0.06]
-                    choosing = False
-                case 'n':
-                    self.gala = False
-                    odds = [0.82, 0.15, 0.03]
-                    choosing = False
-                case _:
-                    print("Please choose y/n only!")
-                    continue
-                    
+                  
         match user_input:
             case 1:
                 match [self.crystal < 3000]:
@@ -118,7 +121,7 @@ class Choices:
                     case _:
                         self.crystal -= 3000
                         for i in range(10):
-                            result = rd.choices(rarity, weights=odds, k=1)
+                            result = rd.choices(rarity, weights=self.odds, k=1)
                             if rarity[0] in result:
                                 self.r +=1
                             elif rarity[1] in result:
@@ -135,7 +138,7 @@ class Choices:
                     case _:
                         self.crystal -= 300
                         for i in range(1):
-                            result = rd.choices(rarity, weights=odds, k=1)
+                            result = rd.choices(rarity, weights=self.odds, k=1)
                             if rarity[0] in result:
                                 self.r +=1
                             elif rarity[1] in result:
