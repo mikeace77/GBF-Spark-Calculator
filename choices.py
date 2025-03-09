@@ -10,6 +10,7 @@ class Choices:
         self.r = 0
         self.sr = 0
         self.ssr = 0
+        self.gala = False
     
     def xtall(self):
         try:
@@ -83,14 +84,32 @@ class Choices:
         all_curr = round(self.one_tix + self.ten_tix)
         self.crystal += all_curr
         print("All tickets are now converted to crystals")
+        print("\n"*100)
         self.one_tix = 0
         self.ten_tix = 0
+
         try:
             user_input = int(input("1. 10 Draw\n2. 1 Draw\nYour choice?: "))
-            print("\n")
         except ValueError:
             print("Please input a number!")
         
+        choosing = True
+        while choosing:
+            is_gala = input("Do you want gala rate?(y/n): ").lower()
+            print("\n")
+            match is_gala:
+                case 'y':
+                    self.gala = True
+                    odds = [0.82, 0.15, 0.06]
+                    choosing = False
+                case 'n':
+                    self.gala = False
+                    odds = [0.82, 0.15, 0.03]
+                    choosing = False
+                case _:
+                    print("Please choose y/n only!")
+                    continue
+                    
         match user_input:
             case 1:
                 match [self.crystal < 3000]:
