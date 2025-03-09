@@ -5,7 +5,6 @@ This is a simple project made from python.''')
 
 user_choices = Choices()
 
-
 while True:
     try:
         user_input  = int(input("1. Save your xtall\n2. Save your 1x tickets\n3. Save your 10x tickets\n4. Check your pulls\n5. Reset\n6. Gacha simulator\n7. Toggle gala\n8. Quit\nYour choice?: "))
