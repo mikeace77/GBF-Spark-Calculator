@@ -12,6 +12,7 @@ class Choices:
         self.ssr = 0
         self.gala = False
         self.odds = [0.82, 0.15, 0.03]
+        self.rarity = ["R", "SR", "SSR"]
     
     def xtall(self):
         try:
@@ -95,60 +96,128 @@ class Choices:
                 case _:
                     print("Please choose y/n only!")
                     continue
+    def draw_ten(self):
+        for i in range(10):
+            self.crystal
+            result = rd.choices(self.rarity, weights=self.odds, k=1)
+            if self.rarity[0] in result:
+                self.r +=1
+            elif self.rarity[1] in result:
+                self.sr +=1
+            else:
+                self.ssr += 1
+            print(''.join(result),"",end="")
+        print("\n")
+        print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+    
+    def draw_one(self):
+        for i in range(1):
+            self.crystal
+            result = rd.choices(self.rarity, weights=self.odds, k=1)
+            if self.rarity[0] in result:
+                self.r +=1
+            elif self.rarity[1] in result:
+                self.sr +=1
+            else:
+                self.ssr += 1
+            print(''.join(result),"",end="")
+        print("\n")
+        print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")  
 
     def gacha(self):
-        rarity = ["R", "SR", "SSR"]
-        self.one_tix *= 300
-        self.ten_tix *= 3000
-        all_curr = round(self.one_tix + self.ten_tix)
-        self.crystal += all_curr
+        check_for_one_tix = self.one_tix * 300
+        check_for_ten_tix = self.ten_tix * 3000
         print("\n"*100)
-        print("All tickets are now converted to crystals")
         print("Please choose how many draws you want!")
-        self.one_tix = 0
-        self.ten_tix = 0
 
+        ''' THIS GACHA METHOD IS USING YOUR TICKETS INSTEAD OF CONVERTING CRYSTAL TO TICKETS'''
+        
         do_gacha = True
         while do_gacha:
             try:
                 user_input = int(input("1. 10 Draw\n2. 1 Draw\n3. Exit\nYour choice?: "))
-            except ValueError:
+                match user_input:
+                    case 3:
+                        break
+                gacha_input = int(input("1. Use crystal\n2. Use 1 tickets\n3. Use 10 tickets\nYour choice?: "))
+            except ValueError and UnboundLocalError:
                 print("Please input a number!")
+                do_gacha = True
 
-            match user_input:
-                case 1:
-                    match [self.crystal < 3000]:
-                        case [True]:
+            match (user_input, gacha_input):
+                case (1, 1):
+                    match self.crystal < 3000:
+                        case True:
                             print("Sorry, not enough crystal")
                         case _:
                             self.crystal -= 3000
-                            for i in range(10):
-                                result = rd.choices(rarity, weights=self.odds, k=1)
-                                if rarity[0] in result:
-                                    self.r +=1
-                                elif rarity[1] in result:
-                                    self.sr +=1
-                                else:
-                                    self.ssr += 1
-                                print(''.join(result),"",end="")
-                            print("\n")
-                            print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
-                case 2:
-                    match [self.crystal < 300]:
-                        case [True]:
+                            Choices.draw_ten(self)
+                case (1, 2):
+                    match check_for_one_tix < 3000:
+                        case True:
+                            print("Sorry, not enough tickets")
+                        case _:
+                            self.one_tix -= 10
+                            Choices.draw_ten(self)
+                case (1, 3):
+                    match check_for_ten_tix < 3000:
+                        case True:
+                            print("Sorry, not enough tickets")
+                        case _:
+                            self.ten_tix -= 1
+                            Choices.draw_ten(self)
+                case (2, 1):
+                    match self.crystal < 300:
+                        case True:
                             print("Sorry, not enough crystal")
                         case _:
                             self.crystal -= 300
-                            for i in range(1):
-                                result = rd.choices(rarity, weights=self.odds, k=1)
-                                if rarity[0] in result:
-                                    self.r +=1
-                                elif rarity[1] in result:
-                                    self.sr +=1
-                                else:
-                                    self.ssr += 1
-                                print(''.join(result),"",end="")
-                            print("\n")
-                            print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+                            Choices.draw_one(self)
+                case (2, 2):
+                    match check_for_one_tix < 300:
+                        case True:
+                            print("Sorry, not enough tickets")
+                        case _:
+                            self.one_tix -= 1
+                            Choices.draw_one(self)
                 case _:
                     break
+                
+            '''THIS METHOD BELOW IS USED IF YOU WANTED ALL TICKETS IS CONVERTED TO CRYSTAL'''
+            # match user_input:
+            #     case 1:
+            #         match [self.crystal < 3000]:
+            #             case [True]:
+            #                 print("Sorry, not enough crystal")
+            #             case _:
+            #                 self.crystal -= 3000
+            #                 for i in range(10):
+            #                     result = rd.choices(rarity, weights=self.odds, k=1)
+            #                     if rarity[0] in result:
+            #                         self.r +=1
+            #                     elif rarity[1] in result:
+            #                         self.sr +=1
+            #                     else:
+            #                         self.ssr += 1
+            #                     print(''.join(result),"",end="")
+            #                 print("\n")
+            #                 print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+            #     case 2:
+            #         match [self.crystal < 300]:
+            #             case [True]:
+            #                 print("Sorry, not enough crystal")
+            #             case _:
+            #                 self.crystal -= 300
+            #                 for i in range(1):
+            #                     result = rd.choices(rarity, weights=self.odds, k=1)
+            #                     if rarity[0] in result:
+            #                         self.r +=1
+            #                     elif rarity[1] in result:
+            #                         self.sr +=1
+            #                     else:
+            #                         self.ssr += 1
+            #                     print(''.join(result),"",end="")
+            #                 print("\n")
+            #                 print(f"Total R: {self.r}, SR: {self.sr}, SSR: {self.ssr}")
+            #     case _:
+            #         break
