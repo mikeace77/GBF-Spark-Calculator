@@ -183,7 +183,14 @@ class Choices:
                 case _:
                     break
                 
-            '''THIS METHOD BELOW IS USED IF YOU WANTED ALL TICKETS IS CONVERTED TO CRYSTAL'''
+            '''THIS METHOD BELOW IS USED IF YOU WANTED ALL TICKETS IS CONVERTED TO CRYSTAL'''            
+            # self.one_tix *= 300
+            # self.ten_tix *= 3000
+            # all_curr = round(self.one_tix + self.ten_tix)
+            # self.crystal += all_curr
+            # print("All tickets are now converted to crystals")
+            # self.one_tix = 0
+            # self.ten_tix = 0
             # match user_input:
             #     case 1:
             #         match [self.crystal < 3000]:
